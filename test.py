@@ -1,52 +1,57 @@
-# -*- coding: utf-8 -*-
-# @Time    : 2018/12/24 22:35
-# @Author  : Jingwang Li
-# @Email   : jingwanali@gmail.com
-# @Blog    : www.jingwangl.com
-from mpl_toolkits.basemap import Basemap, cm
-# requires netcdf4-python (netcdf4-python.googlecode.com)
-from netCDF4 import Dataset as NetCDFFile
+# coding=utf-8
+import csv
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
+from mpl_toolkits.basemap import Basemap
+from matplotlib.patches import Polygon
 
-# plot rainfall from NWS using special precipitation
-# colormap used by the NWS, and included in basemap.
-
-nc = NetCDFFile('../../../examples/nws_precip_conus_20061222.nc')
-# data from http://water.weather.gov/precip/
-prcpvar = nc.variables['amountofprecip']
-data = 0.01*prcpvar[:]
-latcorners = nc.variables['lat'][:]
-loncorners = -nc.variables['lon'][:]
-lon_0 = -nc.variables['true_lon'].getValue()
-lat_0 = nc.variables['true_lat'].getValue()
-# create figure and axes instances
-fig = plt.figure(figsize=(8,8))
-ax = fig.add_axes([0.1,0.1,0.8,0.8])
-# create polar stereographic Basemap instance.
-m = Basemap(projection='stere',lon_0=lon_0,lat_0=90.,lat_ts=lat_0,\
-            llcrnrlat=latcorners[0],urcrnrlat=latcorners[2],\
-            llcrnrlon=loncorners[0],urcrnrlon=loncorners[2],\
-            rsphere=6371200.,resolution='l',area_thresh=10000)
-# draw coastlines, state and country boundaries, edge of map.
-m.drawcoastlines()
-m.drawstates()
-m.drawcountries()
-# draw parallels.
-parallels = np.arange(0.,90,10.)
-m.drawparallels(parallels,labels=[1,0,0,0],fontsize=10)
-# draw meridians
-meridians = np.arange(180.,360.,10.)
-m.drawmeridians(meridians,labels=[0,0,0,1],fontsize=10)
-ny = data.shape[0]; nx = data.shape[1]
-lons, lats = m.makegrid(nx, ny) # get lat/lons of ny by nx evenly space grid.
-x, y = m(lons, lats) # compute map proj coordinates.
-# draw filled contours.
-clevs = [0,1,2.5,5,7.5,10,15,20,30,40,50,70,100,150,200,250,300,400,500,600,750]
-cs = m.contourf(x,y,data,clevs,cmap=cm.s3pcpn)
-# add colorbar.
-cbar = m.colorbar(cs,location='bottom',pad="5%")
-cbar.set_label('mm')
-# add title
-plt.title(prcpvar.long_name+' for period ending '+prcpvar.dateofdata)
-plt.show()
+113.888736,30.611646
+114.664872,30.506162
+114.308424,30.834174
+114.293476,30.303828
+# map_path = 'E:\\data\\basemap\\wuhan2'
+map_path = 'G:\Lab6'
+def DrawPointMap(file_name):
+    fig = plt.figure()
+    ax1 = fig.add_axes([0.1, 0.1, 0.8, 0.8])#[left,bottom,width,height]
+    map = Basemap(projection='mill', lat_0=36, lon_0=122,\
+                 llcrnrlat=29.8, urcrnrlat=31.2, llcrnrlon=113.2, urcrnrlon=115.2,\
+			     ax=ax1,rsphere=6371200.,resolution='h',area_thresh=1000000)
+    shp_info = map.readshapefile(map_path + '\\' + 'Road', 'states', default_encoding='ascii')
+    for info, shp in zip(map.states_info, map.states):
+        # proid = info['NAME_2']
+        # if proid == 'Wuhan':
+        poly = Polygon(shp, facecolor='w', edgecolor='k', lw=1.0, alpha=0.8)#注意设置透明度alpha，否则点会被地图覆盖
+        ax1.add_patch(poly)
+    # for info, shp in zip(map.states_info, map.states):
+    #     proid = info['NAME_2']
+    #     if proid == 'Wuhan':
+    #         poly = Polygon(shp,facecolor='w',edgecolor='k', lw=1.0, alpha=0.8)#注意设置透明度alpha，否则点会被地图覆盖
+    #         ax1.add_patch(poly)
+    parallels = np.arange(30.6,35.3,2)
+    map.drawparallels(parallels,labels=[1,0,0,0],fontsize=10) #parallels
+    meridians = np.arange(116.3,122,2)
+    map.drawmeridians(meridians,labels=[0,0,0,1],fontsize=10) #meridians
+    # posi = pd.read_csv(file_name)
+    # lat = np.array(posi["lat"][0:48])#获取经纬度坐标，一共有48个数据
+    # lon = np.array(posi["lon"][0:48])
+    # val = np.array(posi["val"][0:48],dtype=float)#获取数值
+    # size = (val-np.min(val)+0.05)*800#对点的数值作离散化，使得大小的显示明显
+    # x,y = map(lon,lat)
+    # map.scatter(x, y, s=size, color = 'r') #要标记的点的坐标、大小及颜色
+    # for i in range(0,47):
+    #    plt.text(x[i]+5000,y[i]+5000,str(val[i]))
+       #plt.text(lat[i],lon[i],str(val[i]), family='serif', style='italic', ha='right', wrap=True)
+    #plt.annotate(s=3.33,xy=(x,y),xytext=None, xycoords='data',textcoords='offset points', arrowprops=None,fontsize=16)
+    map.drawmapboundary()  #边界线
+    #map.fillcontinents()
+    map.drawstates()
+    #map.drawcoastlines()  #海岸线
+    # map.drawcountries()
+    # map.drawcounties()
+    plt.title('Wuhan')#标题
+    # plt.savefig('Jiangsu.png', dpi=100, bbox_inches='tight')#文件命名为Jiangsu.png存储
+    plt.show()
+if __name__=='__main__':
+    DrawPointMap("Info.csv")
