@@ -25,7 +25,8 @@ save_path = "E:\\data\\Mobike\\byday\\"
 #     sort_by_ID(file)
 
 
-def exact_trips(file1, file2):
+def exact_trips(a, b):
+    file1, file2 = pd.read_csv(day_path + a), pd.read_csv(day_path + b)
     i = j = 0
     n1, n2 = len(file1), len(file2)
     while i < n1 and j < n2:
@@ -42,13 +43,18 @@ def exact_trips(file1, file2):
             i += 1
             j += 1
 
+
 ## st: start time, ss: start_site, et: end_time, es: end site
 for i in range(1, 8):
-    trips = pd.DataFrame(columns=['ID', 'st', 'ss', 'et', 'es'])
+    trips = pd.DataFrame(columns=['st', 'ID', 'slon', 'slat', 'et', 'elon', 'elat'])
     day_path = save_path + '2018090' + str(i) +'\\'
     file_list = os.listdir(day_path)
     for a, b in zip(file_list[:-1], file_list[1:]):
         print(a)
         file1, file2 = pd.read_csv(day_path + a), pd.read_csv(day_path + b)
-        exact_trips(file1, file2)
+        data = pd.merge(file1, file2, how='inner', on='ID')
+        data = data[(data.lon_x != data.lon_y) | (data.lat_x != data.lat_y)]
+        data.columns = ['st', 'ID', 'slon', 'slat', 'et', 'elon', 'elat']
+        trips = pd.concat([trips, data])
+
     trips.to_csv(day_path[:-1] + '_trips')
