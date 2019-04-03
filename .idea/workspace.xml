@@ -4,13 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/test.py" line="18" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2b4fdc2e-64b1-4287-806b-245902d507f7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Metro-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Metro-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/explore-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/explore-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Metro.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Metro.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_process.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/explore.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/explore.ipynb" afterDir="false" />
-    </list>
+    <list default="true" id="2b4fdc2e-64b1-4287-806b-245902d507f7" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +25,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/data_process.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="516">
+            <state relative-caret-position="656">
               <caret line="67" column="51" lean-forward="true" selection-start-line="67" selection-start-column="51" selection-end-line="67" selection-end-column="51" />
               <folding>
                 <element signature="e#145#154#0" expanded="true" />
@@ -89,7 +83,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-12" />
     <option name="width" value="981" />
     <option name="height" value="1032" />
@@ -281,15 +275,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.105374075" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.7692308" visible="true" weight="0.155902" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7692308" weight="0.155902" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -353,7 +346,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data_process.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="516">
+        <state relative-caret-position="656">
           <caret line="67" column="51" lean-forward="true" selection-start-line="67" selection-start-column="51" selection-end-line="67" selection-end-column="51" />
           <folding>
             <element signature="e#145#154#0" expanded="true" />
