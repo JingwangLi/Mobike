@@ -4,37 +4,47 @@
 # @Email   : jingwanali@gmail.com
 # @Blog    : www.jingwangl.com
 
-from mpl_toolkits.basemap import Basemap
-import matplotlib.pyplot as plt
-import pandas as pd
+import os
 import numpy as np
-from matplotlib import cm
+import pandas as pd
 
-# 绘制基础地图，选择绘制的区域，因为是绘制美国地图，故选取如下经纬度，lat_0和lon_0是地图中心的维度和经度
+read_path = "E:\\data\\Mobike\\unzip\\"
+save_path = "E:\\data\\Mobike\\byday\\"
 
-map = Basemap(projection='stere',lat_0=90,lon_0=-105,\
-            llcrnrlat=23.41 ,urcrnrlat=45.44,\
-            llcrnrlon=-118.67,urcrnrlon=-64.52,\
-            rsphere=6371200.,resolution='l',area_thresh=10000)
-# map = Basemap(projection='stere',
-#               lat_0=0, lon_0=280,
-#               llcrnrlon=73.33,
-#               llcrnrlat=3.51,
-#               urcrnrlon=112.16,
-#               urcrnrlat=53.123)
+file_list = os.listdir(read_path)
 
-map.drawmapboundary()   # 绘制边界
-#map.fillcontinents()   # 填充大陆，发现填充之后无法显示散点图，应该是被覆盖了
-map.drawstates()        # 绘制州
-map.drawcoastlines()    # 绘制海岸线
-map.drawcountries()     # 绘制国家
-# map.drawcounties()      # 绘制县
+def sort_by_ID(name):
+    data = pd.read_csv(read_path + name)
+    data.columns = ['time', 'ID', 'lon', 'lat']
+    data['ID'] = data['ID'].apply(lambda x: x[:-1])
+    data = data.sort_values(by='ID', ascending='True')
+    data.to_csv(save_path + name, index=False)
 
-parallels = np.arange(0.,90,10.)
-map.drawparallels(parallels,labels=[1,0,0,0],fontsize=10) # 绘制纬线
+for file in file_list:
+    print(file)
+    sort_by_ID(file)
 
-meridians = np.arange(-110.,-60.,10.)
-map.drawmeridians(meridians,labels=[0,0,0,1],fontsize=10) # 绘制经线
 
-plt.title('Population distribution in America')
-plt.show()
+def exact_trips(file1, file2):
+    i = j = 0
+    n1, n2 = len(file1), len(file2)
+    while i < n1 and j < n2:
+        if file1.iloc[i, 1] < file2.iloc[j, 1]:
+            i += 1
+        elif file1.iloc[i, 1] > file2.iloc[j, 1]:
+            j += 1
+        else:
+            if file1.iloc[i, 2] != file2.iloc[j, 2] or file1.iloc[i, 3] != file2.iloc[j, 3]:
+                trips.loc[len(trips)] = [file1.iloc[i, 1], file1.iloc[i, 0], (file1.iloc[i, 2], file1.iloc[i, 3]),
+                                         file2.iloc[j, 0], (file2.iloc[j, 2], file2.iloc[j, 3])]
+            i += 1
+            j += 1
+
+## st: start time, ss: start_site, et: end_time, es: end site
+for i in range(1, 8):
+    trips = pd.DataFrame(columns=['ID', 'st', 'ss', 'et', 'es'])
+    day_path = save_path + '2018090' + str(i) +'\\'
+    file_list = os.listdir(day_path)
+    for a, b in zip(file_list[:-1], file_list[1:]):
+        file1, file2 = pd.read_csv(day_path + a), pd.read_csv(day_path + b)
+        exact_trips(file1, file2)
